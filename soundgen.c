@@ -4,11 +4,11 @@
 
 double pitch = 440 * 2*3.14159;
 
-double y(double t, double amp, double freq, double peak, double exp, 
+double y(double t, double amp, double freq, double peak, double expo, 
         double min, double dec) {
     double fade = pow(2.718, -t/pitch*dec);
     double pulse = (peak==0) + (peak!=0)/(pow(fabs((t/pitch-peak)/
-                    ((peak==0)+peak)), exp) + min);
+                    ((peak==0)+peak)), expo) + min);
     return amp*fade*pulse*sin(freq*t);
 }
 
@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
     double amp  = 1;
     double freq = 1;
     double peak = 0.1;
-    double exp  = 2;
+    double expo  = 2;
     double min  = 0.3;
     double dec  = 1;
     double dur  = 1;
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
         case 6:
             sscanf(argv[5], "%lf", &min);
         case 5:
-            sscanf(argv[4], "%lf", &exp);
+            sscanf(argv[4], "%lf", &expo);
         case 4:
             sscanf(argv[3], "%lf", &peak);
         case 3:
@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
     }
     while (t<dur) {
         t += 1./44100;
-        v  = (int16_t) ( y(t*pitch, amp, freq, peak, exp, min, dec)  
+        v  = (int16_t) ( y(t*pitch, amp, freq, peak, expo, min, dec)  
                 * (2<<12) );
         putchar(p[0]);putchar(p[1]);
         putchar(p[0]);putchar(p[1]);
